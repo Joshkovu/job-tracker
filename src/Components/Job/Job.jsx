@@ -9,13 +9,13 @@ const Job = () => {
           return stored ? stored === "dark" : false;
   });
   const {addJob}=useJobs();
-  const [job,setJob]=useState({company:"", location:"",link:"",status:"",position:"", title:"",date:"",notes:""});
+  const [job,setJob]=useState({company:"", location:"",link:"",status:"",position:"", title:"",date:"",notes:"",salary:""});
   
   const handleSubmit =(e)=>{
         e.preventDefault();
         if(job.company && job.position && job.date && job.status){
     addJob(job);
-    setJob({company:"", location:"",status:"",link:"",position:"", title:"",date:"",notes:""})
+    setJob({company:"", location:"",status:"",link:"",position:"", title:"",date:"",notes:"",salary:""})
     }
   }
   React.useEffect(() => {
@@ -34,14 +34,14 @@ const Job = () => {
   
   const toggleTheme = () => setDarkMode((prev) => !prev);
   const [contacts,setContacts]=useState([])
-  const [newContact,setNewContact]=useState({name:"",role:""});
+  const [newContact,setNewContact]=useState({name:"",role:"", company:"",number:""});
   const handleChange = (e)=>{
     setNewContact({...newContact,[e.target.name]:e.target.value})
   }
   const addNewContact=()=>{
     if(newContact.name && newContact.role){
     setContacts([...contacts,newContact])
-    setNewContact({name:"",role:""});}
+    setNewContact({name:"",role:"",company:"",number:""});}
   }
   return (
     <div className={`transition-colors duration-300 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"}`}>
@@ -120,7 +120,7 @@ const Job = () => {
   <option value="Applied">Applied</option>
   <option value="Interview">Interview</option>
   <option value="Offer Received">Offer Received</option>
-  <option value="Rejections received">Rejections received</option>
+  <option value="Rejection received">Rejections received</option>
               </select>
              </div>
               <div className="mb-4">
@@ -141,6 +141,10 @@ const Job = () => {
                 <h4>Date Applied</h4>
                 <input  name="date" value={job.date} onChange={(e)=>setJob({...job,date:e.target.value})} className='pl-4 border border-gray-300 rounded px-2 py-1' type="date" />
              </div> 
+              <div className="mb-4">
+                <h4>Salary</h4>
+                <input  name="salary" value={job.salary} onChange={(e)=>setJob({...job,salary:e.target.value})} className='pl-4 border border-gray-300 rounded px-2 py-1' type="text" />
+             </div> 
              <div>
               <button  className='border bg-blue-600 border-gray-300 p-2 rounded-lg shadow-md '>Save changes</button>
              </div>
@@ -158,13 +162,7 @@ const Job = () => {
   <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
 </svg>
 Upload Resume</button>
-          <p>Tags/Labels</p>
-          <span className="list-tasks"></span>
-          <input className=' mb-5 pl-4 border border-gray-300 rounded px-2 py-1' type="text" placeholder='Add new tag' />
-          <p className='mb-2'>Company Logo(Optional)</p>
-          <button className='mt-4 mb-4 flex align-center pl-3 border border-gray-300 rounded px-2 py-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
-</svg>Upload Logo</button>
+         
         </div>
         <div className={`mt-9 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} border border-gray-300 p-6 rounded-lg shadow-md `}>
             <h1>Activity Timeline</h1>
@@ -186,11 +184,16 @@ Upload Resume</button>
             <div className='mt-4'>
               <input name="name" placeholder='name' value={newContact.name} onChange={handleChange} className='border p-2 mr-2'/>
 <input name="role" placeholder='Role' value={newContact.role} onChange={handleChange} className='border p-2 mr-2'/>
+            <input name="Company" placeholder='Company' value={newContact.company} onChange={handleChange} className='border p-2 mr-2'/>
+            <input name="number" placeholder='number' value={newContact.number} onChange={handleChange} className='border p-2 mr-2'/>
             </div>
             <ul>
+                
         {contacts.map((contact,index)=>(
-             <li key={index} className='border p-2 my-2 rounded'>
-            {contact.name}-{contact.role}
+               
+             <li key={index} className={`flex ${darkMode ? 'text-gray-300' : 'text-blue-900'}`}>
+ <span className={`font-bold text-lg ${darkMode ? 'text-sky-400' : 'text-blue-700'}`}>{contact.company}</span>
+            {contact.name}   <span className='justify-end'>{contact.role}</span>
               </li>
             ))}
             </ul>

@@ -6,6 +6,7 @@ import {Chart as ChartJS, BarElement,
   Tooltip,
   Legend,
 } from "chart.js/auto"
+import { useJobs } from '../../JobContext';
 import {Bar,Line} from "react-chartjs-2"
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 import {  FiPlusSquare, FiBarChart2, FiCheckCircle, FiSettings, FiHelpCircle } from "react-icons/fi";
@@ -29,7 +30,29 @@ const Stats = () => {
    }, [darkMode]);
    
    const toggleTheme = () => setDarkMode((prev) => !prev);
-   
+ 
+    const {jobs}= useJobs();
+    const statusCounts = {
+        Applied:0,
+        Interview :0,
+        Offer:0,
+        Rejected:0
+    }
+    let totalOfferSalary = 0;
+let offerCount = 0;
+    jobs.forEach(job =>{
+         if (job.status === "Interview") statusCounts.Interview++;
+    if (job.status === "Offer Received") statusCounts.Offer++;
+        
+         const salary = Number(job.salary);
+        if (!isNaN(salary) && salary > 0) {
+            totalOfferSalary += salary;
+            offerCount++;
+        }
+    
+          
+    })
+   const averageAnnualSalary = offerCount > 0 ? (totalOfferSalary / offerCount).toLocaleString() : "N/A";
    return (
     <>
      <div className="flex min-h-screen">
@@ -86,25 +109,25 @@ const Stats = () => {
          <nav className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} flex  mb-7`}>
         <div className="flex-1">
             <img src="" alt="" />
-            <p className='font-bold text-2xl'>JobTrack Analytics</p>
+            <p className='font-bold text-2xl'>JobTracker Analytics</p>
         </div>
         <div className=" flex gap-4 flex-1">
-            <input className='pl-4 border border-gray-300 rounded px-2 py-1' type="text" placeholder='Search Applications' />
+            {/* <input className='pl-4 border border-gray-300 rounded px-2 py-1' type="text" placeholder='Search Applications' />
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+</svg> */}
+{/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 </svg>
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-</svg>
+</svg> */}
 
         </div>
     </nav>
         <div className="main-dashboard">
-      <div className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} flex gap-6 mb-7`}>
+      {/* <div className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} flex gap-6 mb-7`}>
         <div className="description">
             <h2 className="text-3xl font-bold">Analytics Dashboard</h2>
         </div>
@@ -122,12 +145,23 @@ const Stats = () => {
             <button className='m-4 pl-4 border border-gray-300 rounded px-2 py-1'>Apply filters </button>
             <button className='m-4 pl-4 border border-gray-300 rounded px-2 py-1'>Clear Filters</button>
         </div>
-      </div>
-      <div className="flex">
+      </div> */}
+      {/* <div className="flex">
         <div className='grid grid-cols-2 gap-4'>
         <div className={`mt-6 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} border border-gray-300 p-6 rounded-lg shadow-md  mb-7`}>
             <h2>Applications by Status</h2>
             <p>Distribution of your job Applications across different stages</p>
+             <div className="grid grid-cols-2 gap-4">
+      {Object.entries(statusCounts).map(([status, count]) => (
+        <div key={status} className="bg-white dark:bg-gray-800 p-4 rounded shadow">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-100">
+            {status}
+          </h3>
+          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{count}</p>
+        </div>
+      ))}
+  </div>
+
         </div>
         <div className={`mt-6 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} border border-gray-300 p-6 rounded-lg shadow-md  mb-7`}>
             <h2>Applications submitted over time</h2>
@@ -192,9 +226,9 @@ const Stats = () => {
                 />
             </div>
         </div>
-     </div>
+     </div> */}
         
-          <div className="ml-7">
+          {/* <div className="ml-7">
            <div className="grid grid-cols-2">
             <div className={`mt-6 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} border border-gray-300 p-6 rounded-lg shadow-md  mb-7`}>
                 <div className="flex align-center">
@@ -250,36 +284,37 @@ const Stats = () => {
 
                 </div>
             </div>
-            </div> 
+            </div>  */}
             <div className={`mt-6 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} border border-gray-300 p-6 rounded-lg shadow-md  mb-7`}>
                 <h2 className="text-3xl">Key Performance Insights</h2>
                 <p className="mt-2">Actionable metrics to optimize your job search</p>
                 <div className="mt-3 mb-4">
                     <h3>Offer Rate</h3>
-                    <span className="">
+                    <span className="flex gap-4 ">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" color='blue'   strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
 </svg>
-      <span>    </span>
+       
+        <span> {statusCounts.Offer} </span>
                     </span>
                     <p>Successfully converted applications to offers</p>
                 </div>
                  <div className="mt-3 mb-4">
                     <h3>Interview Success</h3>
-                    <span className="">
+                    <span className="flex gap-4">
                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" color='red' strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
 </svg>
-   <span></span>
+   <span> {statusCounts.interview}</span>
                     </span>
                     <p>Applications progressing past initial interview</p>
                 </div>
                  <div className="mt-3 mb-4">
                     <h3>Estimated annual Salary</h3>
-                    <span className="">
+                    <span className="flex gap-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" color='green' strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-</svg>  <span></span>
+</svg>  <span>{averageAnnualSalary} </span>
 
                     </span>
                     <p>Based on current offers and market data</p>
@@ -296,8 +331,8 @@ const Stats = () => {
                     </ul>
                 </div>
         </div>
-         </div>
-         </div>
+        
+    
     </main>
     <footer>
         

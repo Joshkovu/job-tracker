@@ -17,7 +17,7 @@ const Dashboard = () => {
                 Applied:0,
                 Interview:0,
                 'Offer Received':0,
-                'Rejections received':0
+                'Rejection received':0
         }
         jobs.forEach(job=>{
                 statusCount[job.status]++
@@ -103,34 +103,14 @@ return (
                         <section className="flex-1 px-8 py-6 transition-colors duration-300">
                                 <div className={`border border-gray-200 dark:border-gray-800 p-6 rounded-2xl shadow  ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"} mt-8 flex flex-col md:flex-row justify-between items-center gap-6 mb-16 transition-colors duration-300`}>
                                         <h2 className="font-bold text-3xl flex-1">Dashboard</h2>
-                                        <div className="flex gap-4 flex-1 items-center">
-                                                <div className="relative w-48">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 absolute left-2 top-2.5 text-gray-400">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                                                        </svg>
-                                                        <input
-                                                                type="text"
-                                                                placeholder="Last 30 Days"
-                                                                className="pl-8 pr-2 py-2 w-full border border-gray-300  dark:border-gray-700 rounded-lg  focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
-                                                        />
-                                                </div>
-                                                <select className="border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2  focus:outline-none focus:ring-2 focus:ring-sky-500 transition">
-                                                        <option value="">Filter</option>
-                                                </select>
-                                                <button className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow transition-colors duration-300">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                                        </svg>
-                                                        Add new Application
-                                                </button>
-                                        </div>
+                                        
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
                                         {[
                                                 { title: "Jobs Applied", value: statusCount.Applied, desc: "Total jobs submitted", color: "bg-sky-100 dark:bg-sky-900" },
                                                 { title: "Interviews Scheduled", value:statusCount.Interview, desc: "Upcoming interviews", color: "bg-emerald-100 dark:bg-emerald-900" },
                                                 { title: "Offers Received", value:statusCount['Offer Received'], desc: "Job offers in hand", color: "bg-yellow-100 dark:bg-yellow-900" },
-                                                { title: "Rejections Received", value: statusCount['Rejections received'], desc: "Applications declined", color: "bg-red-100 dark:bg-red-900" },
+                                                { title: "Rejection Received", value: statusCount['Rejection received'], desc: "Applications declined", color: "bg-red-100 dark:bg-red-900" },
                                         ].map((card, idx) => (
                                                 <div
                                                         key={idx}
@@ -156,7 +136,7 @@ return (
                                                                                         statusCount.Applied,
                                                                                          statusCount.Interview,
                                                                                   statusCount['Offer Received'],
-                                                                                  statusCount['Rejections received']  ],
+                                                                                  statusCount['Rejection received']  ],
                                                                                 backgroundColor: [
                                                                                         "rgba(59,130,246,0.7)",
                                                                                         "rgba(16,185,129,0.7)",
@@ -189,44 +169,103 @@ return (
                                         <p className="font-bold text-2xl mb-1">Job Applications</p>
                                         <p className="mb-6 text-gray-500 dark:text-gray-400">Detailed overview of all your applications</p>
                                         <div className="flex flex-col md:flex-row gap-4 mb-8">
-                                                <input type="text" placeholder="Search applications" className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg  focus:outline-none focus:ring-2 focus:ring-sky-500 transition" />
-                                                <input type="text" placeholder="Filter by Company" className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg  focus:outline-none focus:ring-2 focus:ring-sky-500 transition" />
-                                                <input type="text" placeholder="Filter by tags" className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg  focus:outline-none focus:ring-2 focus:ring-sky-500 transition" />
-                                                <button className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow transition-colors duration-300">Add new Job</button>
+                                               
+                                                <input type="text" placeholder="Search by Company" className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg  focus:outline-none focus:ring-2 focus:ring-sky-500 transition" />
+                                              
+                                                
                                         </div>
                                         <div className="flex  gap-4">
-                                                <div className="font-semibold flex-1/5">Company</div>
-                                                <div className="font-semibold flex-1/5">Role</div>
-                                                <div className="font-semibold flex-1/5">Date Applied</div>
-                                                <div className="font-semibold flex-1/5">Status</div>
-                                                <div className="font-semibold flex-1/5">Notes</div>
-                                        </div>
-                                        {/* Example job card */}
-                                        <div className="mt-4 flex flex-col gap-4">
-                                                {[].length === 0 ? (
-                                                        <div className="text-center text-gray-400 dark:text-gray-600 py-8">No job applications found.</div>
-                                                ) : (
-                                                        [].map((job, idx) => (
-                                                                <div key={idx} className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow transition hover:scale-[1.01] hover:shadow-lg duration-200">
-                                                                        <span>{job.company}</span>
-                                                                        <span>{job.role}</span>
-                                                                        <span>{job.dateApplied}</span>
-                                                                        <span>
-                                                                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                                <div className="font-semibold flex-1/5">
+                                                 <h1>Company</h1>
+                                                 <div>
+                                                           <ul>
+                              {jobs.map((job,index)=>(
+                         <li key={index} >
+                             {job.company}
+                                    </li>
+                                       ))}
+                                                </ul>
+                                                 </div>
+                                                </div>
+                                                
+                                                  <div className="font-semibold flex-1/5">
+                                                 <h1>Position</h1>
+                                                 <div>
+                                                           <ul>
+                              {jobs.map((job,index)=>(
+                         <li key={index} >
+                             {job.position}
+                                    </li>
+                                       ))}
+                                                </ul>
+                                                 </div>
+                                                </div>
+                                               
+                                                  <div className="font-semibold flex-1/5">
+                                                 <h1>Date Applied</h1>
+                                                 <div>
+                                                           <ul>
+                              {jobs.map((job,index)=>(
+                         <li key={index} >
+                             {job.date}
+                                    </li>
+                                       ))}
+                                                </ul>
+                                                 </div>
+                                                </div>
+                                               
+                                                  <div className="font-semibold flex-1/5">
+                                                 <h1>Status</h1>
+                                                 <div>
+                                                           <ul>
+                              {jobs.map((job,index)=>(
+                         <li key={index} >
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                                                                                         job.status === "Applied" ? "bg-sky-200 text-sky-800 dark:bg-sky-900 dark:text-sky-200" :
-                                                                                        job.status === "Interviewing" ? "bg-emerald-200 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200" :
-                                                                                        job.status === "Offer" ? "bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200" :
+                                                                                        job.status === "Interview" ? "bg-emerald-200 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200" :
+                                                                                        job.status === "Offer Received" ? "bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200" :
                                                                                         "bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-200"
                                                                                 }`}>
                                                                                         {job.status}
                                                                                 </span>
+                                    </li>
+                                       ))}
+                                                </ul>
+                                                 </div>
+                                                </div>
+                                              
+                                                    <div className="font-semibold flex-1/5">
+                                                 <h1>Location</h1>
+                                                 <div>
+                                                           <ul>
+                              {jobs.map((job,index)=>(
+                         <li key={index} >
+                             {job.location}
+                                    </li>
+                                       ))}
+                                                </ul>
+                                                 </div>
+                                                </div>
+                                        </div>
+                                        {/* Example job card */}
+                                        <div className="mt-4 flex flex-col gap-4">
+                                                {jobs.length === 0 ? (
+                                                        <div className="text-center text-gray-400 dark:text-gray-600 py-8">No job applications found.</div>
+                                                ) : (
+                                                        jobs.map((job, idx) => (
+                                                               
+                                                                        <span key={idx}>
+                                                                               
                                                                         </span>
-                                                                        <span>{job.notes}</span>
-                                                                </div>
+                                                                        
+                                                        
                                                         ))
                                                 )}
                                         </div>
                                 </div>
+                
+                        
+                        
                         </section>
                 </div>
         </div>
